@@ -3,7 +3,7 @@ a = {
   b:function(){
     console.log("b function in a object");
   }
-}
+};
 a.b();
 
 //함수는 다른 함수를 인자로 받을 수 있다.
