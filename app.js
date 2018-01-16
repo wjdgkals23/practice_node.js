@@ -2,6 +2,7 @@
 //main application
 var express = require('express'); //함수 형태
 var app = express(); //익스프레스 객체 선언
+var bodyParser = require('body-parser');//post로 날아온 정보를 읽이 위해 필요한 미들웨어
 app.locals.pretty = true;
 app.set('view engine', 'pug');
 app.set('views', './views'); //템플릿 저장 공간에 연결
@@ -11,6 +12,7 @@ app.use(express.static('public')); //정적인 파일의 디렉토리 지정
 //라우트는 길을 설정한다. 라는 뜻이다.
 //라우팅 체크해야한다.
 // 사용자 --------- router --------- controller
+app.use(bodyParser.urlencoded({extended:false}));
 
 app.get('/',function(req, res){ //홈에 접속을 완료했을 때 뒤에 있는 콜백함수가 작동되면서 hello world 작동
   res.send("hello world");
@@ -93,6 +95,26 @@ app.get('/semantic/:id', function(req,res){
 //url 에서 모드 바꾸기
 app.get('/semantic/:id/:mode', function(req,res){
   res.send(req.params.id+','+req.params.mode);
+});
+
+app.get('/form', function(req,res){
+  res.render('form');
+});
+
+app.get('/form_receiver', function(req,res){
+  var title = req.query.title;
+  var description = req.query.description;
+  res.send(title+','+description);
+});
+
+app.get('/form_post', function(req,res){
+  res.render('form_post');
+});
+
+app.post('/form_post_receiver', function(req,res){
+  var title = req.body.title;
+  var description = req.body.description;
+  res.send(title+','+description);
 });
 
 app.listen(3000, function(){ //port 연결이 완료되면 콜백함수 실행
