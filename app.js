@@ -1,3 +1,4 @@
+//test supervisor
 //test express
 //main application
 var express = require('express'); //함수 형태
@@ -110,6 +111,7 @@ app.get('/form_receiver', function(req,res){
 app.get('/form_post', function(req,res){
   res.render('form_post');
 });
+//post(url에 데이터 포함X) 대형의 문자열을 보낼 때
 
 app.post('/form_post_receiver', function(req,res){
   var title = req.body.title;
