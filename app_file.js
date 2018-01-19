@@ -2,10 +2,37 @@ var express = require('express'); //express를 사용할것을 명시
 var app = express();//app 이라는 express 객체를 선언
 var bodyParser = require('body-parser');// post로 정보를 보냈을 때 정보를 읽어드리기위한 미들웨어
 var fs = require('fs');//파일 관련 미들웨어 선언
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+var upload = multer({storage: storage});
 app.locals.pretty = true;//html 자동 줄 설정
 app.set('views','./views_file'); // view로 사용될 파일 디렉토리 지정
 app.set('view engine','pug');//view engine 으로 pug 사용
 app.use(bodyParser.urlencoded({extended:false})); //bodyparser 사용을 위한 필수 문장
+app.use('/users', express.static('uploads'));
+
+app.get('/upload', function(req,res){
+  fs.readdir('uploads', function(err, files){
+    if(err){
+      console.log(err);
+      res.status(500).send("Internal Server Error");
+    }
+    res.render('upload', {lists:files});
+  });
+});
+
+app.post('/upload', upload.single('userfile'), function(req,res){
+  //upload.single('form 태그의 name의 값') 을 통해 req에 file이라는 속성에 업로드한 파일의 정보가 들어간다.
+  console.log(req.file);
+  res.redirect('/upload/');
+});
 
 app.get('/topic/new', function(req,res){ //글작성화면
   fs.readdir('data', function(err, files){ //fs의 readdir(path, callback)를 통해 파일명들을 읽어드린다.

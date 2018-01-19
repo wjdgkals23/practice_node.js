@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+  body
+    ul
+      each list in lists
+        li
+          a(href='/topic/'+list)= list
+    form(action='upload' method='post' enctype='multipart/form-data')
+      input(type='file' name='userfile')
+      input(type='submit')

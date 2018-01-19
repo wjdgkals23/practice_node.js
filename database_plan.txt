@@ -1,0 +1,11 @@
+get('/topic/') : veiw.pug
+get('/topic/:id') : view.pug
+get('/topic/add') : add.pug
+  post('/topic/add')
+  get('topic/:id') redirection
+get('/topic/:id/edit') : edit.pug
+  post('/topic/:id/edit')
+  get('/topic/:id')
+get('/topic/:id/delete') : edit.pug
+  post('/topic/:id/delete')
+  get('/topic/')
