@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var cookieParser = require('cookie-parser');
-app.use(cookieParser());
+app.use(cookieParser('23423452546dafsdf!@#!@#%^&%'));
 
 var products = {
   1:{title:'The history of web 1'},
@@ -52,13 +52,13 @@ app.get('/cart', function(req,res){
 });
 
 app.get('/count', function(req, res){
-  if(req.cookies.count){ //request한 쿠키의 값을 받는 과정
-      var count = parseInt(req.cookies.count);
+  if(req.signedcookies.count){ //request한 쿠키의 값을 받는 과정
+      var count = parseInt(req.signedcookies.count);
   } else {
     var count = 0;
   }
   count = count+1;
-  res.cookie('count', count); //들어온 요청에 대한 응답 count 값을 집어넣는 과정?
+  res.cookie('count', count, {signed:true}); //들어온 요청에 대한 응답 count 값을 집어넣는 과정?
   res.send('count : ' + count);
 });
 
